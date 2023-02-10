@@ -1,0 +1,24 @@
+<ion-card *ngIf="restaurant">
+  <ion-card-header color="success" class="ion-margin-top">
+    <ion-card-title>{{ restaurant.address }}</ion-card-title>
+  </ion-card-header>
+</ion-card>
+<ion-content *ngIf="restaurant">
+  <ion-button
+    color="warning"
+    (click)="startNavigation()"
+    style="width: 99%; margin-bottom: 1em;"
+    >
+    <ion-icon name="locate"></ion-icon>
+     Go to address
+  </ion-button>
+  <arcgis-map
+    [coords]="[restaurant.lng, restaurant.lat]"
+    style="height: 100%; width: 100%"
+  >
+    <arcgis-marker
+      [coords]="[restaurant.lng, restaurant.lat]"
+      color="red"
+    ></arcgis-marker>
+  </arcgis-map>
+</ion-content>

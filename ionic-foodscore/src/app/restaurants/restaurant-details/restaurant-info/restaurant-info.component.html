@@ -1,0 +1,39 @@
+<ion-content class="ion-margin-top">
+  <fs-restaurant-card [restaurant]="restaurant"></fs-restaurant-card>
+  <ion-item *ngIf="restaurant">
+    <ion-button
+    style="width: 99%"
+    color="primary"
+    [routerLink]="['/restaurants', restaurant.id, 'edit']"
+    *ngIf="restaurant.mine"
+    >Edit</ion-button
+  >
+  </ion-item>
+  <ion-card *ngIf="restaurant">
+    <ion-card-header color="danger">
+      <ion-card-title>Restaurant's owner </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <a href="/users/{{ restaurant.creator?.id }}">
+              <ion-avatar>
+                <img
+                  alt="{{ restaurant.creator?.name }}"
+                  src="{{ restaurant.creator?.avatar }}"
+                />
+              </ion-avatar>
+            </a>
+          </ion-thumbnail>
+          <ion-label>
+            <b>{{ restaurant.creator?.name }}</b></ion-label
+          >
+        </ion-item>
+        <ion-item>
+          <ion-label> {{ restaurant.creator?.email }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

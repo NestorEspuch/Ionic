@@ -1,0 +1,62 @@
+<ion-card *ngIf="restaurant">
+  <img
+    alt="{{ restaurant.name }}"
+    src="{{ restaurant.image }}"
+    [routerLink]="['/restaurants', restaurant.id]"
+  />
+  <ion-card-header>
+    <ion-card-title [routerLink]="['/restaurants', restaurant.id]"
+      ><strong>{{ restaurant.name }}</strong></ion-card-title
+    >
+    <ion-card-subtitle>{{ restaurant.description }}</ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content>
+    <ion-list>
+      <ion-item-group>
+        <ion-item>
+          <ion-label><strong>Phone:</strong> {{ restaurant.phone }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label
+            ><strong>Open:</strong>
+            {{ fillDays(restaurant.daysOpen) }}</ion-label
+          >
+          <ion-label>
+            <ion-button
+              fill="solid"
+              color="success"
+              *ngIf="checkOpening(restaurant.daysOpen)"
+            >
+              <strong>Open</strong>
+            </ion-button>
+            <ion-button
+              fill="solid"
+              color="danger"
+              *ngIf="!checkOpening(restaurant.daysOpen)"
+            >
+              <strong>Close</strong>
+            </ion-button>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>Stars:</strong>
+            <fs-star-rating [rating]="restaurant.stars!" [edit]="false">
+            </fs-star-rating>
+          </ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label
+            ><strong>Cuisine:</strong> {{ restaurant.cuisine }}</ion-label
+          >{{ restaurant.distance | number:'1.2-2' }}Km
+        </ion-item>
+      </ion-item-group>
+    </ion-list>
+    <ion-button
+      color="danger"
+      (click)="deleteRestaurant()"
+      *ngIf="restaurant.mine"
+      >Delete</ion-button
+    >
+  </ion-card-content>
+</ion-card>

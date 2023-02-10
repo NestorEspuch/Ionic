@@ -1,0 +1,150 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title *ngIf="!editing">Add Restaurant</ion-title>
+    <ion-title *ngIf="editing">Edit Restaurant: {{restaurant.name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form
+    action="#"
+    (ngSubmit)="addRestaurant()"
+    id="newRestaurant"
+    [formGroup]="restaurantForm"
+    novalidate
+  >
+    <ion-list>
+      <ion-item>
+        <ion-label>Name</ion-label>
+        <ion-input
+          type="text"
+          name="name"
+          pattern="[a-zA-Z ]+"
+          formControlName="name"
+        ></ion-input>
+      </ion-item>
+      <ion-text
+        *ngIf=" nameControl.touched && nameControl.errors?.['required']"
+        style="margin-left: 1em; color: red;"
+        >Name is required
+      </ion-text>
+      <ion-text
+        *ngIf=" nameControl.touched && nameControl.errors?.['pattern']"
+        style="margin-left: 1em; color: red;"
+        >Name must be contains letters and spaces</ion-text
+      >
+
+      <ion-item>
+        <ion-label>Description</ion-label>
+        <ion-textarea
+          name="description"
+          rows="3"
+          formControlName="description"
+        ></ion-textarea>
+      </ion-item>
+      <ion-text
+        *ngIf=" descriptionControl.touched && descriptionControl.errors?.['required']"
+        style="margin-left: 1em; color: red;"
+        >Description is required
+      </ion-text>
+
+      <ion-item>
+        <ion-label>Cuisine</ion-label>
+        <ion-input
+          type="text"
+          name="cuisine"
+          formControlName="cuisine"
+        ></ion-input>
+      </ion-item>
+      <ion-text
+        *ngIf=" cuisineControl.touched && cuisineControl.errors?.['required']"
+        style="margin-left: 1em; color: red;"
+        >Cuisine is required
+      </ion-text>
+
+      <ion-item>
+        <ion-label>Opening days: {{ days }}</ion-label>
+        <ion-button (click)="showDaysCheckbox()">Show days open</ion-button>
+      </ion-item>
+      <ion-text *ngIf="!days" style="margin-left: 1em; color: red;"
+        >Choose at least 1 day
+      </ion-text>
+
+      <ion-item>
+        <ion-label>Phone</ion-label>
+        <ion-input type="text" name="phone" formControlName="phone"></ion-input>
+      </ion-item>
+      <ion-text
+        *ngIf="phoneControl.touched &&phoneControl.errors?.['required']"
+        style="margin-left: 1em; color: red;"
+      >
+        Phone is required
+      </ion-text>
+      <ion-text
+        *ngIf="phoneControl.touched && phoneControl.errors?.['pattern']"
+        style="margin-left: 1em; color: red;"
+        >Phone must be contains 9 numbers</ion-text
+      >
+
+      <ion-item>
+        <ion-label>Image</ion-label>
+
+        <ion-button color="secondary" (click)="takePhoto()">
+          <ion-icon name="camera" slot="start"></ion-icon>
+          Camera
+        </ion-button>
+        <ion-button color="tertiary" (click)="pickFromGallery()">
+          <ion-icon name="images" slot="start"></ion-icon>
+          Gallery
+        </ion-button>
+      </ion-item>
+      <ion-text *ngIf="!newRestaurant.image" style="margin-left: 1em; color: red;">
+        Image is required
+      </ion-text>
+      <img [src]="newRestaurant.image" alt="" *ngIf="newRestaurant.image" />
+
+      <ion-item>
+        <ion-label>Address</ion-label>
+        <ion-input
+          type="search"
+          id="address"
+          name="address"
+          readonly
+          [value]="newRestaurant.address"
+        ></ion-input>
+      </ion-item>
+      <ion-text *ngIf="!newRestaurant.address" style="margin-left: 1em; color: red;"
+        >Address is required
+      </ion-text>
+    </ion-list>
+    <ion-button
+    *ngIf="!editing"
+      type="submit"
+      style="width: 99%;"
+      [disabled]="restaurantForm.invalid"
+      color="primary"
+      >Create</ion-button
+    >
+    <ion-button
+      *ngIf="editing"
+      type="submit"
+      style="width: 99%;"
+      [disabled]="restaurantForm.invalid"
+      color="primary"
+      >Edite</ion-button
+    >
+  </form>
+  <arcgis-map [coords]="[newRestaurant.lng, newRestaurant.lat]">
+    <arcgis-marker
+      [coords]="[newRestaurant.lng, newRestaurant.lat]"
+      color="red"
+    ></arcgis-marker>
+    <arcgis-search
+      position="top-right"
+      (result)="searchResult($event)"
+    ></arcgis-search>
+  </arcgis-map>
+</ion-content>

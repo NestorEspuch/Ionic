@@ -1,0 +1,131 @@
+<form
+  action="#"
+  id="form-profile"
+  class="mt-4"
+  method="POST"
+  role="form"
+  [formGroup]="formProfile"
+  (ngSubmit)="saveProfile()"
+>
+  <legend>Edit profile</legend>
+
+  <div class="form-group">
+    <label for="correo">Email:</label>
+    <input
+      type="email"
+      class="form-control"
+      name="email"
+      formControlName="email"
+      id="email"
+      placeholder="Email"
+      [ngClass]="validClasses(emailControl, 'is-valid', 'is-invalid')"
+    />
+    <label for="name">Name:</label>
+    <input
+      type="text"
+      class="form-control"
+      name="nameUser"
+      formControlName="name"
+      id="name"
+      placeholder="Name"
+      [ngClass]="validClasses(nameControl, 'is-valid', 'is-invalid')"
+    />
+  </div>
+  <p class="text-danger" id="errorInfo1"></p>
+  <p class="text-success" id="okInfo1"></p>
+  <button
+    type="submit"
+    class="btn btn-primary"
+    [disabled]="formProfile.invalid"
+  >
+    Edit profile
+  </button>
+</form>
+<form
+  action="#"
+  id="form-photo"
+  class="mt-4"
+  method="POST"
+  role="form"
+  [formGroup]="formAvatar"
+  (ngSubmit)="saveAvatar()"
+>
+  <legend>Edit photo</legend>
+
+  <div class="form-group">
+    <input
+      type="file"
+      class="form-control"
+      id="avatar"
+      name="avatar"
+      formControlName="avatar"
+      #fileAvatar
+      (change)="changeAvatar(fileAvatar)"
+      [ngClass]="validClasses(avatarControl, 'is-valid', 'is-invalid')"
+    />
+  </div>
+  <div class="row">
+    <div class="col" class="w-100 imgSize">
+      <img
+        class="w-100"
+        id="photo"
+        src="{{ user.avatar }}"
+        alt="{{ user.name }}"
+      />
+    </div>
+    <div class="col">
+      <img
+        [ngClass]="{ 'd-none': !avatarControl }"
+        class="d-none imgSize"
+        id="imgPreview"
+        *ngIf="avatarControl"
+        src="{{ avatarControl.value }}"
+      />
+    </div>
+  </div>
+  <p class="text-danger" id="errorInfo2"></p>
+  <p class="text-success" id="okInfo2"></p>
+  <button type="submit" class="btn btn-primary" [disabled]="formAvatar.invalid">
+    Edit photo
+  </button>
+</form>
+<form
+  action="#"
+  id="form-password"
+  class="mt-4"
+  method="POST"
+  role="form"
+  [formGroup]="formPassword"
+  (ngSubmit)="savePassword()"
+>
+  <legend>Edit password</legend>
+
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input
+      type="password"
+      class="form-control"
+      name="password"
+      formControlName="password"
+      id="password"
+      placeholder="Password"
+      [ngClass]="validClasses(passwordControl, 'is-valid', 'is-invalid')"
+    />
+    <label for="password2">Repeat password:</label>
+    <input
+      type="password"
+      class="form-control"
+      name="password2"
+      formControlName="password2"
+      id="password2"
+      placeholder="Repeat password"
+      [ngClass]="validClasses(password2Control, 'is-valid', 'is-invalid')"
+    />
+    <div class="invalid-feedback" *ngIf="password2Control.errors">
+      Passwords must be the same.
+    </div>
+  </div>
+  <p class="text-danger" id="errorInfo3"></p>
+  <p class="text-success" id="okInfo3"></p>
+  <button type="submit" class="btn btn-primary" [disabled]="formPassword.invalid">Edit password</button>
+</form>
